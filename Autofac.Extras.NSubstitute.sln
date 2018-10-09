@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Extras.NSubstitute", "src\Autofac.Extras.NSubstitute\Autofac.Extras.NSubstitute.csproj", "{A4952538-F054-41FD-9424-100675DE4C41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Extras.NSubstitute.Test", "test\Autofac.Extras.NSubstitute.Test\Autofac.Extras.NSubstitute.Test.csproj", "{69BAE14E-BDF3-4C3F-9A1B-A99F45E9D0B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4952538-F054-41FD-9424-100675DE4C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4952538-F054-41FD-9424-100675DE4C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4952538-F054-41FD-9424-100675DE4C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4952538-F054-41FD-9424-100675DE4C41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69BAE14E-BDF3-4C3F-9A1B-A99F45E9D0B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69BAE14E-BDF3-4C3F-9A1B-A99F45E9D0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69BAE14E-BDF3-4C3F-9A1B-A99F45E9D0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69BAE14E-BDF3-4C3F-9A1B-A99F45E9D0B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
