@@ -17,7 +17,7 @@
     <PackageProjectUrl>http://autofac.org</PackageProjectUrl>
     <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/autofac/Autofac.Extras.NSubstitute</RepositoryUrl>
+    <RepositoryUrl>https://github.com/zskovacs/Autofac.Extras.NSubstitute</RepositoryUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
@@ -30,6 +30,7 @@
     <Authors>Autofac Contributors</Authors>
     <Company>Autofac</Company>
     <Product>Autofac</Product>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
