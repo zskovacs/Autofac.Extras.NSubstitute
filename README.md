@@ -114,3 +114,20 @@ public void Test()
   }
 }
 ```
+
+Or you can use the built in one
+
+```c#
+[Test]
+public void Test()
+{
+  using (var as = AutoSubstitute())
+  {
+    var dependency = as.ProvidePartsOf<IDependency, Dependency>();
+    dependency.When(x => x.GetValue()).DoNotCallBase();
+    dependency.GetValue().Returns("1,2,3");
+
+    // ...and the rest of the test.
+  }
+}
+```

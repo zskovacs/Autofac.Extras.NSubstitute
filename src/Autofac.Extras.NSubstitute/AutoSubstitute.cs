@@ -4,6 +4,7 @@ using System.Security;
 using Autofac.Builder;
 using Autofac.Core;
 using Autofac.Features.ResolveAnything;
+using NSubstitute;
 
 namespace Autofac.Extras.NSubstitute
 {
@@ -99,6 +100,23 @@ namespace Autofac.Extras.NSubstitute
         {
             this.Container.ComponentRegistry.Register(
                 RegistrationBuilder.ForDelegate((c, p) => instance).InstancePerLifetimeScope().CreateRegistration());
+
+            return this.Container.Resolve<TService>();
+        }
+
+        /// <summary>
+        /// Resolve the specified type's partial subs in the container (register it if needed)
+        /// </summary>
+        /// <typeparam name="TService">The type of the service.</typeparam>
+        /// <typeparam name="TImplementation">The implementation of the service.</typeparam>
+        /// <param name="parameters">Optional parameters</param>
+        /// <returns>The service's partial substitute.</returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "The component registry is responsible for registration disposal.")]
+        public TService ProvidePartsOf<TService, TImplementation>(params Parameter[] parameters)
+            where TImplementation : class
+        {
+            this.Container.ComponentRegistry.Register(
+                RegistrationBuilder.ForDelegate((c, p) => Substitute.ForPartsOf<TImplementation>(parameters)).InstancePerLifetimeScope().CreateRegistration());
 
             return this.Container.Resolve<TService>();
         }

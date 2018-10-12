@@ -13,6 +13,8 @@ namespace Autofac.Extras.NSubstitute.Test
             void Go();
 
             IBar Spawn();
+
+            string Fuzz();
         }
 
         public interface IBaz
@@ -105,9 +107,48 @@ namespace Autofac.Extras.NSubstitute.Test
             }
         }
 
+        [Fact]
+        public void ProvidesPartsOfInstances()
+        {
+            using (var fake = new AutoSubstitute())
+            {
+                var bar = Substitute.ForPartsOf<Bar>();
+                bar.When(x => x.Fuzz()).DoNotCallBase();
+                bar.Fuzz().Returns("Fuzz");
+
+                fake.Provide<IBar>(bar);
+
+                var foo = fake.Resolve<Foo>();
+                var result = foo.Fuzz();
+
+                Assert.Equal("Fuzz", result);
+            }
+        }
+
+        [Fact]
+        public void ProvidesPartsOfBuiltin()
+        {
+            using (var fake = new AutoSubstitute())
+            {
+                var bar = fake.ProvidePartsOf<IBar, Bar>();
+                bar.When(x => x.Fuzz()).DoNotCallBase();
+                bar.Fuzz().Returns("Fuzz");
+
+                var foo = fake.Resolve<Foo>();
+                var result = foo.Fuzz();
+
+                Assert.Equal("Fuzz", result);
+            }
+        }
+
         public abstract class Bar : IBar
         {
             private bool _gone;
+
+            public virtual string Fuzz()
+            {
+                return "Buzz";
+            }
 
             public bool Gone
             {
@@ -158,6 +199,11 @@ namespace Autofac.Extras.NSubstitute.Test
             {
                 this._bar.Go();
                 this._baz.Go();
+            }
+
+            public string Fuzz()
+            {
+                return this._bar.Fuzz();
             }
         }
 
