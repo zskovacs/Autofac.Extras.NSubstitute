@@ -28,11 +28,11 @@ Use the `Autofac.Extras.NSubstitute` package's `AutoSubstitute` class to instant
 [Test]
 public void Test()
 {
-  using (var as = new AutoSubstitute())
+  using (var autoSub = new AutoSubstitute())
   {
     // The AutoSubstitute class will inject a mock IDependency
     // into the SystemUnderTest constructor
-    var sut = as.Resolve<SystemUnderTest>();
+    var sut = autoSub.Resolve<SystemUnderTest>();
   }
 }
 ```
@@ -43,17 +43,17 @@ public void Test()
 [Test]
 public void Test()
 {
-  using (var as = new AutoSubstitute())
+  using (var autoSub = new AutoSubstitute())
   {
     // Arrange
-    as.Resolve<IDependency>().GetValue().Returns("expected value");
-    var sut = as.Resolve<SystemUnderTest>();
+    autoSub.Resolve<IDependency>().GetValue().Returns("expected value");
+    var sut = autoSub.Resolve<SystemUnderTest>();
 
     // Act
     var actual = sut.DoWork();
 
     // Assert
-    as.Resolve<IDependency>().Received().GetValue();
+    autoSub.Resolve<IDependency>().Received().GetValue();
     Assert.AreEqual("expected value", actual);
   }
 }
@@ -87,10 +87,10 @@ You can configure the AutoSubstitute to provide a specific instance for a given 
 [Test]
 public void Test()
 {
-  using (var as = AutoSubstitute())
+  using (var autoSub = AutoSubstitute())
   {
     var dependency = new Dependency();
-    as.Provide<IDependency>(dependency);
+    autoSub.Provide<IDependency>(dependency);
 
     // ...and the rest of the test.
   }
@@ -103,12 +103,12 @@ public void Test()
 [Test]
 public void Test()
 {
-  using (var as = AutoSubstitute())
+  using (var autoSub = AutoSubstitute())
   {
     var dependency = Substitute.ForPartsOf<Dependency>();
     dependency.When(x => x.GetValue()).DoNotCallBase();
     dependency.GetValue().Returns("1,2,3");
-    as.Provide<IDependency>(dependency);
+    autoSub.Provide<IDependency>(dependency);
 
     // ...and the rest of the test.
   }
@@ -121,9 +121,9 @@ Or you can use the built in one
 [Test]
 public void Test()
 {
-  using (var as = AutoSubstitute())
+  using (var autoSub = AutoSubstitute())
   {
-    var dependency = as.ProvidePartsOf<IDependency, Dependency>();
+    var dependency = autoSub.ProvidePartsOf<IDependency, Dependency>();
     dependency.When(x => x.GetValue()).DoNotCallBase();
     dependency.GetValue().Returns("1,2,3");
 
