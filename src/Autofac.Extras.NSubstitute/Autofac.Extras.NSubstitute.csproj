@@ -12,9 +12,9 @@
     <PackageId>Autofac.Extras.NSubstitute</PackageId>
     <PackageTags>autofac;di;ioc;dependencyinjection;mocks;mocking;fakes;stubs;doubles;substitutes</PackageTags>
     <PackageReleaseNotes>Release notes are at https://github.com/zskovacs/Autofac.Extras.NSubstitute/releases</PackageReleaseNotes>
-    <PackageIconUrl>https://cloud.githubusercontent.com/assets/1156571/13684110/16b8f152-e6bf-11e5-84ae-22c66c6d351a.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>http://autofac.org</PackageProjectUrl>
-    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <PackageLicense>http://www.opensource.org/licenses/mit-license.php</PackageLicense>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/zskovacs/Autofac.Extras.NSubstitute</RepositoryUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -29,27 +29,19 @@
     <Authors>Autofac Contributors</Authors>
     <Company>Autofac</Company>
     <Product>Autofac</Product>
-    <Version>1.1.0</Version>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.3.0</Version>
+    <TargetFrameworks>netstandard2.0;net6.0;net7.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.1.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.0">
+    <PackageReference Include="Autofac" Version="7.1.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" Condition="Exists('$(MSBuildThisFileDirectory)../../.git')">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Net.RoslynDiagnostics" Version="2.6.0">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" Condition="Exists('$(MSBuildThisFileDirectory)../../.git')">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="NSubstitute" Version="4.2.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta006">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="NSubstitute" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
  </Project>
