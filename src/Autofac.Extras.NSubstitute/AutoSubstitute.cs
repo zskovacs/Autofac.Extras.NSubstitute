@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Security;
 using Autofac.Core;
 using Autofac.Features.ResolveAnything;
 using NSubstitute;
@@ -11,10 +10,8 @@ namespace Autofac.Extras.NSubstitute
     /// <summary>
     /// Wrapper around <see cref="Autofac"/> and <see cref="NSubstitute"/>
     /// </summary>
-    [SecurityCritical]
     public class AutoSubstitute : IDisposable
     {
-        private readonly IContainer _container;
         private bool _disposed;
 
         private readonly Stack<ILifetimeScope> _scopes = new Stack<ILifetimeScope>();
@@ -35,34 +32,29 @@ namespace Autofac.Extras.NSubstitute
 
             builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource().WithRegistrationsAs(b => b.InstancePerLifetimeScope()));
             builder.RegisterSource(new SubstituteRegistrationHandler());
-            this._container = builder.Build();
-            this._currentScope = this.Container.BeginLifetimeScope();
+            Container = builder.Build();
+            _currentScope = Container.BeginLifetimeScope();
         }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="AutoSubstitute"/> class.
         /// </summary>
-        [SecuritySafeCritical]
         ~AutoSubstitute()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         /// <summary>
         /// Gets the <see cref="IContainer"/> that handles the component resolution.
         /// </summary>
-        public IContainer Container
-        {
-            get { return this._container; }
-        }
+        public IContainer Container { get; }
 
         /// <summary>
         /// Disposes internal container.
         /// </summary>
-        [SecuritySafeCritical]
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -74,7 +66,7 @@ namespace Autofac.Extras.NSubstitute
         /// <returns>The service.</returns>
         public T Resolve<T>(params Parameter[] parameters)
         {
-            return this._currentScope.Resolve<T>(parameters);
+            return _currentScope.Resolve<T>(parameters);
         }
 
         /// <summary>
@@ -87,15 +79,15 @@ namespace Autofac.Extras.NSubstitute
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "The component registry is responsible for registration disposal.")]
         public TService Provide<TService, TImplementation>(params Parameter[] parameters)
         {
-            var scope = this._currentScope.BeginLifetimeScope(b =>
+            var scope = _currentScope.BeginLifetimeScope(b =>
             {
                 b.RegisterType<TImplementation>().As<TService>().InstancePerLifetimeScope();
             });
 
-            this._scopes.Push(scope);
-            this._currentScope = scope;
+            _scopes.Push(scope);
+            _currentScope = scope;
 
-            return this._currentScope.Resolve<TService>(parameters);
+            return _currentScope.Resolve<TService>(parameters);
         }
 
         /// <summary>
@@ -108,15 +100,15 @@ namespace Autofac.Extras.NSubstitute
         public TService Provide<TService>(TService instance)
             where TService : class
         {
-            var scope = this._currentScope.BeginLifetimeScope(b =>
+            var scope = _currentScope.BeginLifetimeScope(b =>
             {
                 b.Register(c => instance).InstancePerLifetimeScope();
             });
 
-            this._scopes.Push(scope);
-            this._currentScope = scope;
+            _scopes.Push(scope);
+            _currentScope = scope;
 
-            return this._currentScope.Resolve<TService>();
+            return _currentScope.Resolve<TService>();
         }
 
         /// <summary>
@@ -130,12 +122,12 @@ namespace Autofac.Extras.NSubstitute
         public TService ProvidePartsOf<TService, TImplementation>(params Parameter[] parameters)
             where TImplementation : class
         {
-            var scope = this._currentScope.BeginLifetimeScope(b => b.Register(c => Substitute.ForPartsOf<TImplementation>(parameters)).As<TService>().InstancePerLifetimeScope());
+            var scope = _currentScope.BeginLifetimeScope(b => b.Register(c => Substitute.ForPartsOf<TImplementation>(parameters)).As<TService>().InstancePerLifetimeScope());
 
-            this._scopes.Push(scope);
-            this._currentScope = scope;
+            _scopes.Push(scope);
+            _currentScope = scope;
 
-            return this._currentScope.Resolve<TService>();
+            return _currentScope.Resolve<TService>();
         }
 
         /// <summary>
@@ -149,17 +141,17 @@ namespace Autofac.Extras.NSubstitute
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
-                    while (this._scopes.Count > 0)
-                        this._scopes.Pop().Dispose();
+                    while (_scopes.Count > 0)
+                        _scopes.Pop().Dispose();
 
-                    this.Container.Dispose();
+                    Container.Dispose();
                 }
 
-                this._disposed = true;
+                _disposed = true;
             }
         }
     }
